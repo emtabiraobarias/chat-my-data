@@ -13,7 +13,7 @@ if __name__ == "__main__":
     c.print("[bold red]---------------")
 
     while True:
-        default_question = "what did the president say about ketanji brown?"
+        default_question = "what is the source document about?"
         question = Prompt.ask("Your Question: ", default=default_question)
         # change this line if you're using RetrievalQA
         # input = query

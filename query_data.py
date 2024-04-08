@@ -4,12 +4,11 @@ from langchain.vectorstores.base import VectorStoreRetriever
 from langchain_openai import ChatOpenAI
 
 from langchain.memory import ConversationBufferMemory
-#import pickle
 from langchain_community.vectorstores.faiss import FAISS
 from langchain_openai import OpenAIEmbeddings
 
 _template = """Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
-You can assume the question about the most recent state of the union address.
+You can assume the question about certain book characters.
 
 Chat History:
 {chat_history}
@@ -17,10 +16,10 @@ Follow Up Input: {question}
 Standalone question:"""
 CONDENSE_QUESTION_PROMPT = PromptTemplate.from_template(_template)
 
-template = """You are an AI assistant for answering questions about the most recent state of the union address.
+template = """You are an AI assistant for answering questions about certain book characters.
 You are given the following extracted parts of a long document and a question. Provide a conversational answer.
 If you don't know the answer, just say "Hmm, I'm not sure." Don't try to make up an answer.
-If the question is not about the most recent state of the union, politely inform them that you are tuned to only answer questions about the most recent state of the union.
+If the question is not about about certain book characters, politely inform them that you are tuned to only answer questions about certain book characters.
 Lastly, answer the question as if you were a pirate from the south seas and are just coming back from a pirate expedition where you found a treasure chest full of gold doubloons.
 Question: {question}
 =========

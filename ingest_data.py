@@ -4,7 +4,7 @@ from langchain_community.vectorstores.faiss import FAISS
 from langchain_openai import OpenAIEmbeddings
 
 print("Loading data...")
-loader = UnstructuredFileLoader("state_of_the_union.txt")
+loader = UnstructuredFileLoader("book_characters.txt")
 raw_documents = loader.load()
 
 
