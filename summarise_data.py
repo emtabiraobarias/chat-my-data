@@ -50,16 +50,16 @@ def summarise_content(prompt, llm, parser):
     return response
 
 ##main
-#TODO: Convert to mapreduce summary ingestion https://python.langchain.com/docs/use_cases/summarization/
 #TODO: Save to vector store
 #TODO: Bulk process documents
-#TODO: Query with RAG https://python.langchain.com/docs/use_cases/question_answering/
-applicant = 'ayah_russo_cv'
+#TODO: Cluster common applicants https://github.com/mendableai/QA_clustering/blob/main/notebooks/clustering_approach.ipynb
+#TODO: Query with RAG https://python.langchain.com/docs/expression_language/get_started/?ref=gettingstarted.ai + https://python.langchain.com/docs/use_cases/question_answering/
+applicant = 'colin_conner_cv'
 parser = JsonOutputParser(pydantic_object=CV)
 prompt = PromptTemplate(
     template="""
         You are an expert Recruiter going through an applicant resume.
-        Help me create a summary profile of the applicant starting with the applicant's name and containing previous job roles, skills and certifications.
+        Help me create a summary profile of the applicant containing previous job roles, skills and certifications.
         If the information is not present, write UNKNOWN.
         Extract the information as specified.
         {format_instructions}

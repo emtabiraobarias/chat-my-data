@@ -1,9 +1,14 @@
 # chat-my-data
 Personal project following langchain tutorial on https://blog.langchain.dev/tutorial-chatgpt-over-your-data/
+
 [x] Summarise single CV pdf file by extracting key information from the document and dumping to a JSON file.
-[] Convert to mapreduce summary ingestion https://python.langchain.com/docs/use_cases/summarization/
+
 [] Save to vector store
+
 [] Bulk process documents
+
+[] Cluster common applicants https://github.com/mendableai/QA_clustering/blob/main/notebooks/clustering_approach.ipynb
+
 [] Query with RAG https://python.langchain.com/docs/use_cases/question_answering/
 
 # Applied instructions copied from tutorial
