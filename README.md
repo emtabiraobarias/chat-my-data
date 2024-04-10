@@ -1,5 +1,10 @@
 # chat-my-data
 Personal project following langchain tutorial on https://blog.langchain.dev/tutorial-chatgpt-over-your-data/
+[x] Summarise single CV pdf file by extracting key information from the document and dumping to a JSON file.
+[] Convert to mapreduce summary ingestion https://python.langchain.com/docs/use_cases/summarization/
+[] Save to vector store
+[] Bulk process documents
+[] Query with RAG https://python.langchain.com/docs/use_cases/question_answering/
 
 # Applied instructions copied from tutorial
 
@@ -33,3 +38,8 @@ Custom prompts are used to ground the answers in the state of the union text fil
 ### Running the Application
 
 By running `python app.py` from the command line you can easily interact with your ChatGPT over your own data.
+
+# Tutorials that helped
+https://blog.langchain.dev/tutorial-chatgpt-over-your-data/
+https://www.gettingstarted.ai/how-to-extract-metadata-from-pdf-convert-to-json-langchain/
+https://medium.com/@larry_nguyen/langchain-101-lesson-3-output-parser-406591b094d7

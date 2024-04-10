@@ -50,7 +50,10 @@ def summarise_content(prompt, llm, parser):
     return response
 
 ##main
-
+#TODO: Convert to mapreduce summary ingestion https://python.langchain.com/docs/use_cases/summarization/
+#TODO: Save to vector store
+#TODO: Bulk process documents
+#TODO: Query with RAG https://python.langchain.com/docs/use_cases/question_answering/
 applicant = 'ayah_russo_cv'
 parser = JsonOutputParser(pydantic_object=CV)
 prompt = PromptTemplate(
