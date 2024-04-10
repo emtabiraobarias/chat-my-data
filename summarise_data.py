@@ -24,7 +24,7 @@ class Contact(BaseModel):
 
 class CV(BaseModel):
     name: str = Field(description="Applicant")
-    profile: str = Field(description="Summary Profile starting with applicant's name")
+    profile: str = Field(description="Summary Profile")
     skills: List[str] = Field(description="List of Skills and Specialisations")
     employment: List[Employment] = Field(description="Employment History showing the company and the role sorted by latest.")
     trainings: List[str] = Field("List of Trainings and Education taken exclude any dates")
@@ -43,38 +43,22 @@ def define_llm(model_name="gpt-4", custom_prompt=""):
     llm = ChatOpenAI(model_name=model_name, temperature=0)
     return llm
 
-def define_llm_chain(model_name="gpt-4", custom_prompt=""):
-    print("Defining LLM chain...")
-    prompt = PromptTemplate.from_template(custom_prompt)
-    llm = ChatOpenAI(model_name=model_name, temperature=0)
-    llm_chain = LLMChain(llm=llm, prompt=prompt)
-    return llm_chain
-
-def stuff_summarise_pdf(pdf_file_path, model_name, custom_prompt, document_variable_name):
-    print("Stuff summarising PDF content:")
-    pages = load_pdf(pdf_file_path)
-    llm_chain = define_llm_chain(model_name, custom_prompt)
-    stuff_chain = StuffDocumentsChain(llm_chain=llm_chain, document_variable_name=document_variable_name)
-    summary = stuff_chain.run(pages)    
-    return summary
-
-def summarise_pdf():
-    pdf_file_path = "data/ayah_russo_cv.pdf"
-    model_name="gpt-4"
-    prompt_template="""Write a concise summary of the following:
-        "{data}"
-        CONCISE SUMMARY:"""
-    document_variable_name = "data"
-    print(stuff_summarise_pdf(pdf_file_path, model_name, prompt_template, document_variable_name))
+def summarise_content(prompt, llm, parser):
+    print("Summarising content...")
+    chain = prompt | llm | parser
+    response = chain.invoke({
+        "context": pages
+    })
+    return response
 
 ##main
 
-applicant = 'test_cv'
+applicant = 'ayah_russo_cv'
 parser = JsonOutputParser(pydantic_object=CV)
 prompt = PromptTemplate(
     template="""
         You are an expert Recruiter going through an applicant resume.
-        Help me create a summary profile of the applicant containing previous job roles, skills and certifications.
+        Help me create a summary profile of the applicant starting with the applicant's name and containing previous job roles, skills and certifications.
         If the information is not present, write UNKNOWN.
         Extract the information as specified.
         {format_instructions}
@@ -86,10 +70,7 @@ prompt = PromptTemplate(
 )
 pages = load_pdf(pdf_file_path="data/" + applicant + ".pdf")
 llm = define_llm()
-chain = prompt | llm | parser
-response = chain.invoke({
-    "context": pages
-})
+response = summarise_content(prompt, llm, parser)
 print(response)
 with open('data/json/' + applicant + '_data.json', 'w') as f:
     json.dump(response, f)
