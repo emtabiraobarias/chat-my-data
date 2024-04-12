@@ -3,13 +3,13 @@ Personal project following langchain tutorial on https://blog.langchain.dev/tuto
 
 [x] Summarise single CV pdf file by extracting key information from the document and dumping to a JSON file.
 
-[] Save to vector store
+[x] Bulk process documents
 
-[] Bulk process documents
+[ ] Save to vector store
 
-[] Cluster common applicants https://github.com/mendableai/QA_clustering/blob/main/notebooks/clustering_approach.ipynb
+[ ] Cluster common applicants or Data Cleansing https://github.com/mendableai/QA_clustering/blob/main/notebooks/clustering_approach.ipynb || https://medium.com/intel-tech/four-data-cleaning-techniques-to-improve-large-language-model-llm-performance-77bee9003625 
 
-[] Query with RAG https://python.langchain.com/docs/use_cases/question_answering/
+[ ] Query with RAG https://python.langchain.com/docs/use_cases/question_answering/
 
 # Applied instructions copied from tutorial
 
