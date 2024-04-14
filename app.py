@@ -75,9 +75,9 @@ with block:
 
     gr.Examples(
         examples=[
-            "What did the president say about Ketanji Brown Jackson?",
-            "Did he mention Stephen Breyer?",
-            "What was his stance on Ukraine?",
+            "Give me a list of candidates for marketing role skilled in Microsoft Word",
+            "Give me a list of Information Technology applicants",
+            "Do we have an applicant skilled in Microsoft Word and Excel?",
         ],
         inputs=message,
     )

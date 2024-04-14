@@ -1,5 +1,5 @@
-# chat-my-data
-Personal project following langchain tutorial on https://blog.langchain.dev/tutorial-chatgpt-over-your-data/
+# query-cv-index
+Personal project following langchain tutorial on https://blog.langchain.dev/tutorial-chatgpt-over-your-data/ - credits due to the tutorial blog's author for some of the python script files used in this personal project.
 
 [x] Summarise single CV pdf file by extracting key information from the document and dumping to a JSON file.
 
@@ -19,7 +19,6 @@ Personal project following langchain tutorial on https://blog.langchain.dev/tuto
 
 Create a ChatGPT like experience over your custom docs using [LangChain](https://github.com/langchain-ai/langchain).
 
-See [this blog post](blogpost.md) for a more detailed explanation.
 
 ### Step 0: Install requirements
 
@@ -42,13 +41,17 @@ This builds `cvindex_vectorstore` files using OpenAI Embeddings and FAISS.
 
 ### Query data
 
-Custom prompts are used to ground the answers in the state of the union text file.
+Custom prompts are used to ground the answers in the CV index file.
 
 ### Running the Application
 
-By running `python app.py` from the command line you can easily interact with your ChatGPT over your own data.
+By running `python app.py` from the command line you can easily interact with your ChatGPT over the CV index data.
+
+You may also run `cli_app.py` from the command line to query CV index data over the command line. You will have to familiarise yourself to the options by looking inside the python file.
 
 # Tutorials that helped
-https://blog.langchain.dev/tutorial-chatgpt-over-your-data/
-https://www.gettingstarted.ai/how-to-extract-metadata-from-pdf-convert-to-json-langchain/
-https://medium.com/@larry_nguyen/langchain-101-lesson-3-output-parser-406591b094d7
+* https://blog.langchain.dev/tutorial-chatgpt-over-your-data/
+
+* https://www.gettingstarted.ai/how-to-extract-metadata-from-pdf-convert-to-json-langchain/
+
+* https://medium.com/@larry_nguyen/langchain-101-lesson-3-output-parser-406591b094d7
