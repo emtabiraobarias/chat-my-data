@@ -5,11 +5,13 @@ Personal project following langchain tutorial on https://blog.langchain.dev/tuto
 
 [x] Bulk process documents
 
-[ ] Save to vector store
+[x] Save to vector store
 
 [ ] Cluster common applicants or Data Cleansing https://github.com/mendableai/QA_clustering/blob/main/notebooks/clustering_approach.ipynb || https://medium.com/intel-tech/four-data-cleaning-techniques-to-improve-large-language-model-llm-performance-77bee9003625 
 
 [ ] Query with RAG https://python.langchain.com/docs/use_cases/question_answering/
+
+[ ] Create a single cli_app to run everything
 
 # Applied instructions copied from tutorial
 
@@ -32,9 +34,11 @@ export OPENAI_API_KEY=<your_key_here>
 
 ### Step 2: Ingest your data
 
+Run: `python summarise_data.py`
+
 Run: `python ingest_data.py`
 
-This builds `vectorstore.pkl` using OpenAI Embeddings and FAISS.
+This builds `cvindex_vectorstore` files using OpenAI Embeddings and FAISS.
 
 ### Query data
 

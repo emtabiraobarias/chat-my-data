@@ -8,7 +8,7 @@ from langchain_community.vectorstores.faiss import FAISS
 from langchain_openai import OpenAIEmbeddings
 
 _template = """Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.
-You can assume the question about certain book characters.
+You can assume the question about job applicants.
 
 Chat History:
 {chat_history}
@@ -16,11 +16,11 @@ Follow Up Input: {question}
 Standalone question:"""
 CONDENSE_QUESTION_PROMPT = PromptTemplate.from_template(_template)
 
-template = """You are an AI assistant for answering questions about certain book characters.
-You are given the following extracted parts of a long document and a question. Provide a conversational answer.
+template = """You are an AI assistant for answering questions about certain job applicants.
+You are given the following index of job applicant profile summary list and a question. Provide a conversational answer.
 If you don't know the answer, just say "Hmm, I'm not sure." Don't try to make up an answer.
-If the question is not about about certain book characters, politely inform them that you are tuned to only answer questions about certain book characters.
-Lastly, answer the question as if you were a pirate from the south seas and are just coming back from a pirate expedition where you found a treasure chest full of gold doubloons.
+If the question is not about about job applicants, politely inform them that you are tuned to only answer questions about certain job applicants.
+Lastly, answer the question as an expert Recruiter having gone through a long list of job resumes.
 Question: {question}
 =========
 {context}
@@ -31,7 +31,7 @@ QA_PROMPT = PromptTemplate(template=template, input_variables=[
 
 
 def load_retriever():
-    vectorstore = FAISS.load_local('vectorstore', OpenAIEmbeddings(), allow_dangerous_deserialization=True)
+    vectorstore = FAISS.load_local('cvindex_vectorstore', OpenAIEmbeddings(), allow_dangerous_deserialization=True)
     retriever = VectorStoreRetriever(vectorstore=vectorstore)
     return retriever
 

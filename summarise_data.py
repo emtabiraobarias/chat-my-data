@@ -10,6 +10,7 @@ from typing import List
 
 import os
 from pathlib import Path
+from datetime import datetime
 
 class Employment(BaseModel):
     role: str = Field(description="Job Title")
@@ -33,6 +34,21 @@ class CV(BaseModel):
     contact: Contact = Field("Applicant's contact information")
     link: str = Field(description="Link to document location")
 
+parser = JsonOutputParser(pydantic_object=CV)
+prompt = PromptTemplate(
+    template="""
+        You are an expert Recruiter going through an applicant resume.
+        Help me create a summary profile of the applicant containing previous job roles, skills and certifications.
+        If the information is not present, write UNKNOWN.
+        Extract the information as specified.
+        {format_instructions}
+        {context}
+        """,
+    description="CV Summary",
+    input_variables=["context"],
+    partial_variables={"format_instructions": parser.get_format_instructions()},
+)
+
 def load_pdf(pdf_file_path="data/test_cv.pdf"):
     print("Loading data...")
     loader = PyPDFLoader(pdf_file_path)
@@ -52,12 +68,12 @@ def summarise_content(pages, prompt, llm, parser):
     })
     return response
 
-def bulk_summarise(folder_path="data/"):
+def bulk_summarise(folder_path="data/", prompt=prompt, parser=parser):
     file_extension = ('.pdf')
     for files in os.scandir(folder_path):
         if files.path.endswith(file_extension):
             file_path = folder_path + files.name
-            json_path = folder_path + 'json/' + Path(file_path).stem + '_data.json'
+            json_path = folder_path + 'json/processed_' + Path(file_path).stem + '_data.json'
             if os.path.exists(json_path):
                 print("Ignoring " + file_path + " because the summarised json data already exists")
             else: 
@@ -69,23 +85,35 @@ def bulk_summarise(folder_path="data/"):
                 with open(json_path, 'w') as f:
                     json.dump(response, f)
 
+def create_summary_index(folder_path="data/json/"): 
+    file_extension = ('.json')
+    index = ""
+    create_index = 0
+    for files in os.scandir(folder_path):
+        if files.path.endswith(file_extension) and not files.name.startswith("processed_"):
+            try:
+                file_path = folder_path + files.name
+                json_file = open(file_path)
+                json_data = json.load(json_file)
+                index = index + json_data["name"] + " is " + json_data["profile"] + "\n\n"
+                json_file.close()
+                print("Marking '" + file_path + "' as processed")
+                processed_file_path = folder_path + "processed_" + files.name
+                os.rename(file_path, processed_file_path)
+                create_index += 1
+            except:
+                print("Warning: error in processing '" + files.name + "' moving on with other data files...")
+    try:
+        if create_index > 0:
+            index_filename = folder_path + "index/" + str(datetime.now().strftime("%Y%m%d_%H%M%S")) + "_index.txt"
+            print("Creating summary index file in  " + index_filename)
+            index_filename = Path(index_filename)
+            index_filename.parent.mkdir(exist_ok=True, parents=True)
+            with open(index_filename, "x") as index_file:
+                index_file.write(index)
+    except:
+        print("Error in creating index file " + index_filename)
+
 ##main
-#TODO: Save to vector store
-#TODO: Cluster common applicants https://github.com/mendableai/QA_clustering/blob/main/notebooks/clustering_approach.ipynb
-#TODO: Query with RAG https://python.langchain.com/docs/expression_language/get_started/?ref=gettingstarted.ai + https://python.langchain.com/docs/use_cases/question_answering/
-#TODO: Data cleansing: https://medium.com/intel-tech/four-data-cleaning-techniques-to-improve-large-language-model-llm-performance-77bee9003625 
-parser = JsonOutputParser(pydantic_object=CV)
-prompt = PromptTemplate(
-    template="""
-        You are an expert Recruiter going through an applicant resume.
-        Help me create a summary profile of the applicant containing previous job roles, skills and certifications.
-        If the information is not present, write UNKNOWN.
-        Extract the information as specified.
-        {format_instructions}
-        {context}
-        """,
-    description="CV Summary",
-    input_variables=["context"],
-    partial_variables={"format_instructions": parser.get_format_instructions()},
-)
 bulk_summarise()
+create_summary_index()
